@@ -1,0 +1,29 @@
+
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: docker-ai-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test
+    volumes:
+      - "./docker/mysql/mysql.cnf:/etc/mysql/conf.d/custom.cnf:ro"
+      - "./docker/mysql/dbdata:/var/lib/mysql"
+
+    ports:
+      - "3306:3306"
+
+  web:
+    build: ./docker/python
+    container_name: docker-ai-web
+    #command: flask run --host=0.0.0.0
+    volumes:
+      - .:/app
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+
+volumes:
+  db_data:

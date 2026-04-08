@@ -1,0 +1,14 @@
+/wp-content/uploads/2024/02/aftermovie-kamermuziekfestival-groningen-2023.mp4
+/.history
+/.history/*
+*.mp4
+*.MP4
+*.zip
+
+
+/.history
+
+/docker/mysql/dbdata
+/docker/mysql/dbdata/*
+/docker/mysql/dbdata/*
+

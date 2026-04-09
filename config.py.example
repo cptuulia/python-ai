@@ -1,0 +1,5 @@
+OPENAI_API_KEY='https://platform.openai.com/api-keys'
+OPENAI_MODEL='gpt-5-nano'
+
+
+

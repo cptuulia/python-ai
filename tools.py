@@ -77,7 +77,9 @@ completion.model_dump()
 def call_function(name, args):
     if name == "get_weather":
         return get_weather(**args)
-
+    # **args unpacks this dictionary, so the function call becomes 
+    # get_weather(latitude=48.8566, longitude=2.3522) instead of 
+    # get_weather({"latitude": 48.8566, "longitude": 2.3522}).
 
 for tool_call in completion.choices[0].message.tool_calls:
     name = tool_call.function.name
@@ -88,6 +90,11 @@ for tool_call in completion.choices[0].message.tool_calls:
     messages.append(
         {"role": "tool", "tool_call_id": tool_call.id, "content": json.dumps(result)}
     )
+    #
+    # json.loads() converts a JSON-formatted string into a corresponding Python object.
+    #
+    # json.dumps() converts a Python object (such as a dictionary or list) 
+    # into a JSON-formatted string
 
 # --------------------------------------------------------------
 # Step 4: Supply result and call model again
@@ -103,7 +110,7 @@ class WeatherResponse(BaseModel):
     )
 
     
-#completion_2 = client.beta.chat.completions.parse(
+# completion_2 = client.beta.chat.completions.parse(
 #    model=config.OPENAI_MODEL,
 #    messages=messages,
 #    tools=tools,

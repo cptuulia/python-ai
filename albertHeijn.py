@@ -17,12 +17,15 @@ def get_weather(latitude, longitude, name):
           f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current=cloud_cover"  
     )
     data = response.json()
-    return data["current"]
+    retval =  data["current"]
+    retval['name'] = name
+   
+    return retval
 
 
-#x= get_weather(62.000, 24.4200, 'espoo )
+#x= get_weather(62.000, 24.4200, 'espoo' )
 
-client = OpenAI(api_key=config.OPENAI_API_KEY)
+client = OpenAI(api_key=config.OPENAI_API_KEY, base_url=config.BASE_URL)
 
 system_prompt = "You are a helpful weather assistant."
 
@@ -50,16 +53,66 @@ tools = [
 
 messages = [
     {"role": "system", "content": system_prompt},
-    {"role": "user", "content": "Tell me the cities in Noord Holland (Amsterdam, Haarlem, Alkmaar, Den Helder, Zaandam (Zaanstad), Hoorn, Purmerend, Beverwijk, Heerhugowaard, Castricum, Bergen, Schagen ) where the weather is sunny today."},
+    {"role": "user", "content": "Tell me weather in the cities in Amsterdam, Haarlem and Alkmaar"},
 ]
 
 completion = client.chat.completions.create(
     model=config.OPENAI_MODEL,
     messages=messages,
     tools=tools
-    
 )
 completion.model_dump()
-print(completion.choices[0].message)
+#print(completion.choices[0].message)
 
 
+def call_function(name, args):
+    if name == "get_weather":
+        return get_weather(**args)
+    
+
+if completion.choices[0].message.tool_calls:
+    for tool_call in completion.choices[0].message.tool_calls: 
+        name = tool_call.function.name
+        args = json.loads(tool_call.function.arguments)
+        messages.append(completion.choices[0].message)
+
+        result = call_function(name, args)
+        messages.append(
+            {"role": "tool", "tool_call_id": tool_call.id, "content": json.dumps(result)}
+        )
+else:
+    print("No tool calls were made by the model. Response:", completion.choices[0].message.content)
+
+#json_formatted_str = json.dumps(messages, indent=2)
+#print(json_formatted_str)
+
+
+class WeatherResponse(BaseModel):
+    
+    cloud_cover: str = Field(
+        description="The current cloud cover in percentage for the given location."
+    )
+    name: str = Field(
+        description="Name for the given location."
+    )
+    response: str = Field(
+        description="A natural language response to the user's question."
+    )
+
+
+completion_2 = client.chat.completions.create(
+    model=config.OPENAI_MODEL,
+    messages=messages,
+    response_format={
+        "type": "json_schema",
+        "json_schema": {
+            "name": "calendar_event",
+            "schema": WeatherResponse.schema(),
+        },
+    },
+)
+
+final_response =WeatherResponse.parse_raw(completion_2.choices[0].message.content)
+final_response.temperature
+final_response.response
+print(final_response.response)

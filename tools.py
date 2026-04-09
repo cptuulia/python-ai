@@ -7,7 +7,7 @@ import config
 from openai import OpenAI
 from pydantic import BaseModel, Field
 
-client = OpenAI(api_key=config.OPENAI_API_KEY)
+client = OpenAI(api_key=config.OPENAI_API_KEY, base_url=config.BASE_URL)
 """
 docs: https://platform.openai.com/docs/guides/function-calling
 """
@@ -90,6 +90,8 @@ for tool_call in completion.choices[0].message.tool_calls:
     messages.append(
         {"role": "tool", "tool_call_id": tool_call.id, "content": json.dumps(result)}
     )
+
+    
     #
     # json.loads() converts a JSON-formatted string into a corresponding Python object.
     #

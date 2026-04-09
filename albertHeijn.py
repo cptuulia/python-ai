@@ -53,7 +53,7 @@ tools = [
 
 messages = [
     {"role": "system", "content": system_prompt},
-    {"role": "user", "content": "Tell me if the weather weather in Espoo is sunny "},
+    {"role": "user", "content": "Tell me if the weather is sunny in Espoo or Amsterdam  is sunny "},
 ]
 #  {"role": "user", "content": "Tell mein which of following the cities in Amsterdam, Haarlem and Alkmaar"},
 completion = client.chat.completions.create(
@@ -69,12 +69,12 @@ def call_function(name, args):
     if name == "get_weather":
         return get_weather(**args)
     
-
+messages.append(completion.choices[0].message)
 if completion.choices[0].message.tool_calls:
     for tool_call in completion.choices[0].message.tool_calls: 
         name = tool_call.function.name
         args = json.loads(tool_call.function.arguments)
-        messages.append(completion.choices[0].message)
+       
 
         result = call_function(name, args)
         messages.append(

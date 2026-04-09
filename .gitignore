@@ -11,4 +11,9 @@
 /docker/mysql/dbdata
 /docker/mysql/dbdata/*
 /docker/mysql/dbdata/*
+/__pycache__/
+/__pycache__/*
+/.venv/
+/.venv/*
 
+/config.py

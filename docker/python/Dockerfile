@@ -22,3 +22,4 @@ ENV FLASK_APP=app.py
 
 # Run app.py when the container launches
 CMD [ "flask", "run", "--host=0.0.0.0", "--port=4000"]
+

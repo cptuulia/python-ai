@@ -34,7 +34,7 @@ tools = [
         "type": "function",
         "function": {
             "name": "get_weather",
-            "description": "Get current could cover for provided coordinates in percentage.",
+            "description": "Get current cloud cover for provided coordinates in percentage.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -53,9 +53,9 @@ tools = [
 
 messages = [
     {"role": "system", "content": system_prompt},
-    {"role": "user", "content": "Tell me weather in the cities in Amsterdam, Haarlem and Alkmaar"},
+    {"role": "user", "content": "Tell me if the weather weather in Espoo is sunny "},
 ]
-
+#  {"role": "user", "content": "Tell mein which of following the cities in Amsterdam, Haarlem and Alkmaar"},
 completion = client.chat.completions.create(
     model=config.OPENAI_MODEL,
     messages=messages,
@@ -113,6 +113,6 @@ completion_2 = client.chat.completions.create(
 )
 
 final_response =WeatherResponse.parse_raw(completion_2.choices[0].message.content)
-final_response.temperature
+#final_response.temperature
 final_response.response
 print(final_response.response)

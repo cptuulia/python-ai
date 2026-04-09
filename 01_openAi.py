@@ -4,7 +4,7 @@ import config
 from openai import OpenAI
  
 
-client = OpenAI(api_key=config.OPENAI_API_KEY)
+client = OpenAI(api_key=config.OPENAI_API_KEY, base_url=config.BASE_URL)
 
 
 completion = client.chat.completions.create(

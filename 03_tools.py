@@ -81,17 +81,18 @@ def call_function(name, args):
     # get_weather(latitude=48.8566, longitude=2.3522) instead of 
     # get_weather({"latitude": 48.8566, "longitude": 2.3522}).
 
+messages.append(completion.choices[0].message)
 for tool_call in completion.choices[0].message.tool_calls:
     name = tool_call.function.name
     args = json.loads(tool_call.function.arguments)
-    messages.append(completion.choices[0].message)
+    
 
     result = call_function(name, args)
     messages.append(
         {"role": "tool", "tool_call_id": tool_call.id, "content": json.dumps(result)}
     )
 
-    
+
     #
     # json.loads() converts a JSON-formatted string into a corresponding Python object.
     #

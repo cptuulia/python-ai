@@ -53,7 +53,7 @@ tools = [
 
 messages = [
     {"role": "system", "content": system_prompt},
-    {"role": "user", "content": "Tell me if the weather is sunny in Espoo or Amsterdam  is sunny "},
+    {"role": "user", "content": "Tell me  all of the cities where the weather is sunny on the following list  : Madrid, Berlin, Rome,  Espoo, Paris,  London or Amsterdam. "},
 ]
 #  {"role": "user", "content": "Tell mein which of following the cities in Amsterdam, Haarlem and Alkmaar"},
 completion = client.chat.completions.create(
@@ -88,15 +88,8 @@ else:
 
 
 class WeatherResponse(BaseModel):
-    
-    cloud_cover: str = Field(
-        description="The current cloud cover in percentage for the given location."
-    )
-    name: str = Field(
-        description="Name for the given location."
-    )
-    response: str = Field(
-        description="A natural language response to the user's question."
+    cities: list[str] = Field(
+        description="The cities where the weather is sunny."
     )
 
 
@@ -114,5 +107,5 @@ completion_2 = client.chat.completions.create(
 
 final_response =WeatherResponse.parse_raw(completion_2.choices[0].message.content)
 #final_response.temperature
-final_response.response
-print(final_response.response)
+#final_response.response
+print(final_response)

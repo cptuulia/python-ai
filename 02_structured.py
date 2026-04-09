@@ -1,3 +1,9 @@
+################################################################
+#
+# Example of using structured output with Pydantic models.
+
+#################################################################
+
 import os
 import config
 

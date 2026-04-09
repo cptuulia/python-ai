@@ -1,3 +1,9 @@
+################################################################
+#
+# Example to get the current weather for a list of cities 
+# and return the ones where it's sunny.
+#
+#################################################################
 import requests
 import json
 import config
@@ -106,6 +112,4 @@ completion_2 = client.chat.completions.create(
 )
 
 final_response =WeatherResponse.parse_raw(completion_2.choices[0].message.content)
-#final_response.temperature
-#final_response.response
 print(final_response)

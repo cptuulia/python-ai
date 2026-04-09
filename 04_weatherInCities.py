@@ -1,3 +1,9 @@
+################################################################
+#
+# This example demonstrates how to use tools (function calling) with the OpenAI API.
+# We will get the current weather for a list of cities.
+#
+#################################################################
 import requests
 import json
 import config

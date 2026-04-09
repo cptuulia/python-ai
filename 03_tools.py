@@ -1,3 +1,10 @@
+
+################################################################
+#
+# Example of using tools (function calling).
+# We get the current weather for a location by calling a public API from the model.
+#
+#################################################################
 import requests
 import json
 import config

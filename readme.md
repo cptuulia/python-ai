@@ -5,5 +5,4 @@ https://platform.openai.com/api-keys
 
 https://developers.openai.com/api/docs/guides/structured-outputs
 
-
-
+https://github.com/openai/openai-python/blob/main/examples/demo.py

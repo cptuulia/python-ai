@@ -106,10 +106,10 @@ completion_2 = client.chat.completions.create(
         "type": "json_schema",
         "json_schema": {
             "name": "calendar_event",
-            "schema": WeatherResponse.schema(),
+            "schema": WeatherResponse.model_json_schema(),
         },
     },
 )
 
-final_response =WeatherResponse.parse_raw(completion_2.choices[0].message.content)
+final_response =WeatherResponse.model_validate_json(completion_2.choices[0].message.content)
 print(final_response)

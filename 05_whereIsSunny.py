@@ -13,6 +13,8 @@ import os
 from openai import OpenAI
 from pydantic import BaseModel, Field
 
+action = input("Do you want want to know the sunny or warm cities? (s/w) ")
+
 
 
 def get_weather(latitude, longitude, name):
@@ -20,7 +22,7 @@ def get_weather(latitude, longitude, name):
     #https://api.open-meteo.com/v1/forecast?latitude=&longitude=13.41&current=cloud_cover
      # f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
     response = requests.get(
-          f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current=cloud_cover"  
+          f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current=cloud_cover&current=temperature_2m"  
     )
     data = response.json()
     retval =  data["current"]
@@ -40,7 +42,7 @@ tools = [
         "type": "function",
         "function": {
             "name": "get_weather",
-            "description": "Get current cloud cover for provided coordinates in percentage.",
+            "description": "Get current cloud cover and temperature for provided coordinates in percentage and celsius.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -57,9 +59,23 @@ tools = [
 ]
 
 
+
+
+if action == "s":
+    userMessage = (
+        "Tell me all of the cities where the weather is sunny on the following list: "
+        "Madrid, Berlin, Rome, Espoo, Paris, London or Amsterdam. "
+        "It is sunny when cloud cover is less than 50%."
+    )
+else:
+    userMessage = (
+        "Tell me all of the cities where the temperature is above 15 degrees Celsius: "
+        "Madrid, Berlin, Rome, Espoo, Paris, London or Amsterdam. "
+    )
+
 messages = [
     {"role": "system", "content": system_prompt},
-    {"role": "user", "content": "Tell me  all of the cities where the weather is sunny on the following list  : Madrid, Berlin, Rome,  Espoo, Paris,  London or Amsterdam. "},
+    {"role": "user", "content": userMessage},
 ]
 #  {"role": "user", "content": "Tell mein which of following the cities in Amsterdam, Haarlem and Alkmaar"},
 completion = client.chat.completions.create(

@@ -40,7 +40,7 @@ completion = client.chat.completions.create(
         "type": "json_schema",
         "json_schema": {
             "name": "calendar_evesnt",
-            "schema": CalendarEvent.schema(),
+            "schema": CalendarEvent.model_json_schema(),
         },
     },
 )
@@ -49,7 +49,7 @@ completion = client.chat.completions.create(
 # Step 3: Parse the response
 # --------------------------------------------------------------
 
-event = CalendarEvent.parse_raw(completion.choices[0].message.content)
+event = CalendarEvent.model_validate_json(completion.choices[0].message.content)
 print(event.name)
 print(event.date)
 print(event.participants)

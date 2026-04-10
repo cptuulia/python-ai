@@ -3,6 +3,7 @@ from .weather_service import WeatherService
 
 
 def main() -> None:
+   
     client = OpenAIClient()
     service = WeatherService(client)
 

@@ -17,7 +17,7 @@ class WeatherService:
             f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current=cloud_cover&current=temperature_2m"
         )
         data = resp.json()
-        retval = data.get("current", {})
+        retval = data.get("current", {})    
         retval["name"] = name
         return retval
 

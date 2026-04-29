@@ -1,4 +1,6 @@
+from openai import OpenAI
 from .openai_client import OpenAIClient
+
 from .weather_service import WeatherService
 
 

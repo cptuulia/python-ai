@@ -113,13 +113,13 @@ response_format={
     "type": "json_schema",
     "json_schema": {
         "name": "calendar_event",
-        "schema": WeatherResponse.model_json_schema(),
+        "schema": WeatherResponse.schema(),
     },
 },
 )
 
 # Use Pydantic v2 API to validate from JSON string
-final_response = WeatherResponse.model_validate_json(
+final_response = WeatherResponse.parse_raw(
     completion_2.choices[0].message.content
 )
 #final_response.temperature

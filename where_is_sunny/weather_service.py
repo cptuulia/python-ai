@@ -66,9 +66,9 @@ class WeatherService:
             messages=messages,
             response_format={
                 "type": "json_schema",
-                "json_schema": {"name": "calendar_event", "schema": WeatherResponse.model_json_schema()},
+                "json_schema": {"name": "calendar_event", "schema": WeatherResponse.schema()},
             },
         )
 
-        final = WeatherResponse.model_validate_json(completion_2.choices[0].message.content)
+        final = WeatherResponse.parse_raw(completion_2.choices[0].message.content)
         return final

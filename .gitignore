@@ -13,6 +13,12 @@
 /docker/mysql/dbdata/*
 /__pycache__/
 /__pycache__/*
+
+
+/where_is_sunny/__pycache__/
+/where_is_sunny/__pycache__/*
+
+
 /.venv/
 /.venv/*
 

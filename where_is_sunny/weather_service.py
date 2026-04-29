@@ -3,8 +3,8 @@ import requests
 from typing import Optional
 
 from .models import WeatherResponse
-from .openai_client import OpenAIClient
-
+#from .openai_client import OpenAIClient
+from lib.openai_client import OpenAIClient
 
 class WeatherService:
     """Service responsible for interacting with the weather API and model."""
